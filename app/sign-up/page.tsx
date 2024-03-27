@@ -4,6 +4,7 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function Signin() {
   const [email, setEmail] = React.useState<string>("");
@@ -16,7 +17,14 @@ export default function Signin() {
     if (!email.endsWith("@ucf.edu")) {
       toast.warning("Invalid email domain");
     } else {
-      router.push("/home");
+      const body = {
+        email,
+        password
+      }
+
+      axios.post("http://localhost:3000/api/user/signup", body).then(res => {
+        router.push("/login")
+      })
     }
   };
 
